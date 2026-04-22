@@ -48,7 +48,30 @@ The `SKILL.md` in this repo is generated from `AXON_SKILL_BODY` in
 [`axon-402-mcp/src/lib/connect-snippets.ts`](https://github.com/alex-reysa/AXON/blob/main/axon-402-mcp/src/lib/connect-snippets.ts).
 The AXON monorepo has a vitest drift guard that pins that constant
 against the on-disk file and a `publish:skill-repo` npm script that
-mirrors the content here.
+mirrors the content here. A `skill-drift-check` CI workflow on the
+monorepo fetches the raw file from this repo and fails if the two
+copies diverge.
+
+## Security
+
+This repository is a load-bearing surface for AXON onboarding. Every
+agent installed via `npx skills add alex-reysa/axon-wallet-skill`
+executes the `SKILL.md` committed to `main` here — push access is
+effectively equivalent to shipping arbitrary runtime instructions to
+every AXON-connected agent.
+
+Protections:
+
+- `main` is protected: PRs required, at least one review, linear
+  history, admins included.
+- The owner account uses 2FA.
+- Content changes originate from the AXON monorepo's
+  `AXON_SKILL_BODY` constant (see above) and land here via the
+  `publish:skill-repo` sync script, not manual edits.
+
+If you discover a security issue with this skill's content or the
+monorepo's onboarding flow, please report it privately via the AXON
+monorepo's `SECURITY.md`.
 
 ## License
 
